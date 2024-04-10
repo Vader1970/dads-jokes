@@ -1,3 +1,5 @@
+import JokerFetcher from "./components/JokeFetcher";
+
 // Define a functional component called Home
 export default function Home() {
   return (

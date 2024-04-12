@@ -1,7 +1,7 @@
 "use server";
 
-// Importing the redirect function from the next/dist/server/api-utils module
-import { redirect } from "next/dist/server/api-utils";
+// Importing the redirect function from the next/navigation module
+import { redirect } from "next/navigation";
 // Importing the createClient function from the supabase server utility
 import { createClient } from "../utils/supabase/server";
 // Importing the revalidatePath function from the next/cache module

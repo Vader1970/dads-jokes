@@ -1,5 +1,7 @@
 // Importing the Link component from Next.js for client-side navigation
 import Link from "next/link";
+// Importing Login or Logout buttons from ./LogoutOrLogin
+import LogoutOrLogin from "./LogoutOrLogin";
 
 // Define the NavBar functional component
 export default function NavBar() {
@@ -28,7 +30,10 @@ export default function NavBar() {
             </Link>
           </li>
         </ul>
-        <div>{/* LoginOrLogout */}</div>
+        {/* Navigation link for Login and Logout button */}
+        <div>
+          <LogoutOrLogin />
+        </div>
       </div>
     </nav>
   );

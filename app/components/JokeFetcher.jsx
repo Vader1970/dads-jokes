@@ -6,7 +6,7 @@
 import { useEffect, useState } from "react";
 
 // Define the JokerFetcher functional component
-export default function JokerFetcher() {
+export default function JokerFetcher({ user }) {
   // Define state variable 'joke' and a function to update it 'setJoke'
   const [joke, setJoke] = useState("");
 
@@ -19,24 +19,48 @@ export default function JokerFetcher() {
         Accept: "application/json",
       },
     });
+
     // Parsing the JSON response
     const data = await respone.json();
+
     // Updating the 'joke' state with the fetched joke
     setJoke(data.joke);
   };
 
   // Using the useEffect hook to perform the fetch operation when the component mounts
   useEffect(() => {
+    // Triggering the fetchJoke function when the component mounts,
+    // ensuring that the joke is fetched only once after the initial render
     fetchJoke();
-  }, []); // Empty dependency array ensures this effect runs only once after initial render
+  }, []);
 
+  // Text for the button based on the user's authentication status
+  const saveJokeText = user ? "Save Joke" : "Login To Save Joke";
+
+  // Rendering the component
   return (
     <div>
       {/* Displaying the fetched joke or a loading message */}
       <p className='=text-lg md:text-xl lg:text-2xl p-5'>{joke || "Loading joke..."}</p>
-      {/* Button to fetch a new joke */}
-      <div onClick={fetchJoke}>
-        <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>Regenerate</button>
+
+      {/* Buttons for regenerating joke and saving joke */}
+      <div className='flex justify-center gap-10'>
+        {/* Button to fetch a new joke */}
+        <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={fetchJoke}>
+          Regenerate
+        </button>
+        {/* Button to save the joke, disabled if user is not logged in */}
+        <button
+          disabled={!user}
+          onClick={async () => {
+            if (!user) return;
+
+            alert("Joke Saved!");
+          }}
+          className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded'
+        >
+          {saveJokeText} {/* Displaying text based on user's authentication status */}
+        </button>
       </div>
     </div>
   );

@@ -35,3 +35,34 @@ export async function saveJoke(joke) {
     throw error;
   }
 }
+
+// Asynchronously deletes a joke from the database based on its ID
+export async function deleteJoke(jokeId) {
+  // Create a Supabase client instanc
+  const supabase = createClient();
+  // Fetch user data from the authenticated session
+  const { data } = await supabase.auth.getUser();
+  // Extract the user object from the data
+  const user = data.user;
+
+  // Check if the user is authenticated
+  if (!user) {
+    // If not authenticated, throw an error indicating that authentication is required for this action
+    throw Error("Must be an authenticated user to perform this action.");
+  }
+  try {
+    // Attempt to delete the joke from the database where the joke ID matches and the user ID matches the authenticated user
+    const { data, error } = await supabase.from("joke").delete().match({ id: jokeId, user_id: user.id });
+
+    // If an error occurred during the deletion process, throw the error
+    if (error) throw error;
+
+    // Invalidate the cache for the saved-jokes page to reflect the updated list of jokes
+    revalidatePath("/saved-jokes");
+    // Return the deleted joke data
+    return data;
+  } catch (error) {
+    // If an error occurred during the deletion process, throw the error
+    throw error;
+  }
+}

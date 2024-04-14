@@ -1,4 +1,5 @@
 // Importing the createClient function from the Supabase server utilities
+import DeleteJokeButton from "../components/DeleteJokeButton";
 import { createClient } from "../utils/supabase/server";
 
 // Public route component for the Saved Jokes page
@@ -42,7 +43,8 @@ export default async function SavedJokes() {
         {jokes.map((joke) => (
           <div key={joke.id} className='flex items-center justify-center space-x-2'>
             <li className='list-none'>{joke.joke_text}</li>
-            {/* <DeleteJokeButton jokeId={joke.id} /> */}
+            {/* Rendering the DeleteJokeButton component with the jokeId prop set to the ID of the current joke, allowing users to delete individual jokes when clicked */}
+            <DeleteJokeButton jokeId={joke.id} />
           </div>
         ))}
       </ul>

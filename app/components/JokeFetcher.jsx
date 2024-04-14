@@ -4,6 +4,7 @@
 
 // Importing React hooks for managing side effects and component state
 import { useEffect, useState } from "react";
+import { saveJoke } from "../data/joke/actions";
 
 // Define the JokerFetcher functional component
 export default function JokerFetcher({ user }) {
@@ -51,10 +52,13 @@ export default function JokerFetcher({ user }) {
         </button>
         {/* Button to save the joke, disabled if user is not logged in */}
         <button
-          disabled={!user}
+          disabled={!user} // Disable the button if user is not logged in
           onClick={async () => {
+            // Check if user is logged in before proceeding to save the joke
             if (!user) return;
-
+            // Call the saveJoke function to save the joke
+            await saveJoke(joke);
+            // Alert user that the joke has been saved
             alert("Joke Saved!");
           }}
           className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded'
